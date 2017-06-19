@@ -1,5 +1,6 @@
 (function($) {
   var specialCharacters = ["'","~","#","%","&","*","{","}","\\" + "\\",":","<",">","?","/","+","|",".",",",'"',"’","\\!","\\@","\\$","\\^","\\(","\\)","\\-","\\_","\\=","\\;","`", "\\" + "[", "\\" + "]"];
+  var validationMessage = "Letters and numbers. Special characters are not allowed.";
 
   var hasSpecialCharacter = function(str) {
     var pattern = new RegExp("[" + specialCharacters.join("") + "]", 'g');
@@ -13,11 +14,13 @@
     var $this = $(e.currentTarget);
     var $input = $this.find('input[type="text"]');
     var isValid = isNameValid($input);
-    var $fdControl = $this.closest('.fd_control');
+    var $fdControl = $input.closest('.fd_control');
+    var isValidationVisible = $fdControl.find('.custom-validator').length;
 
     if (!isValid) {
       //removeSpecialCharacters($input);
-      $fdControl.append(validationTemplate(validationMessage));
+      if (!isValidationVisible) 
+        $fdControl.append(validationTemplate(validationMessage));
     }
     else {
       $fdControl.find('.custom-validator').remove();
@@ -34,7 +37,6 @@
       $(e.currentTarget).find('input').trigger('keyup');  
     }, 250);
   };
-  var validationMessage = "The following characters are not permitted: " + specialCharacters.join(" ").replace(/\\/g, '') + " \\";
   var validationTemplate = function(msg) {
     return [
       '<span class="ms-formvalidation custom-validator">',
@@ -44,6 +46,5 @@
     ].join("");
   };
 
-  //$(document).on('paste', '[fd_name="FileLeafRef"]', triggerKeyup);
   $(document).on('blur', '[fd_name="FileLeafRef"]', onBlur);
 })(jQuery);
