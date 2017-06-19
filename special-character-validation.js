@@ -16,7 +16,7 @@
     var $fdControl = $this.closest('.fd_control');
 
     if (!isValid) {
-      removeSpecialCharacters($input);
+      //removeSpecialCharacters($input);
       $fdControl.append(validationTemplate(validationMessage));
     }
     else {
@@ -37,7 +37,7 @@
   var validationMessage = "The following characters are not permitted: " + specialCharacters.join(" ").replace(/\\/g, '') + " \\";
   var validationTemplate = function(msg) {
     return [
-      '<span class="ms-formvalidation custom-name-validator">',
+      '<span class="ms-formvalidation custom-validator">',
         '<span role="alert">' + msg + '</span>',
         '<br />',
       '</span>'
