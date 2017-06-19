@@ -13,14 +13,14 @@
     var $this = $(e.currentTarget);
     var $input = $this.find('input[type="text"]');
     var isValid = isNameValid($input);
+    var $fdControl = $this.closest('.fd_control');
 
     if (!isValid) {
       removeSpecialCharacters($input);
-      $input.after(validationTemplate(validationMessage));
+      $fdControl.append(validationTemplate(validationMessage));
     }
     else {
-      $this.closest('.fd_field')
-        .find('.custom-validator').remove();
+      $fdControl.find('.custom-validator').remove();
     }
   };
   var removeSpecialCharacters = function($input) {
