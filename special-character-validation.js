@@ -1,6 +1,6 @@
 (function($) {
   var specialCharacters = ["'","~","#","%","&","*","{","}","\\" + "\\",":","<",">","?","/","+","|",".",",",'"',"’","\\!","\\@","\\$","\\^","\\(","\\)","\\-","\\_","\\=","\\;","`", "\\" + "[", "\\" + "]"];
-  var validationMessage = "Letters and numbers. Special characters are not allowed.";
+  var validationMessage = "Letters and numbers only. Special characters are not allowed.";
 
   var hasSpecialCharacter = function(str) {
     var pattern = new RegExp("[" + specialCharacters.join("") + "]", 'g');
@@ -19,10 +19,12 @@
 
     if (!isValid) {
       //removeSpecialCharacters($input);
+      toggleFormSubmitButtonState(false);
       if (!isValidationVisible) 
         $fdControl.append(validationTemplate(validationMessage));
     }
     else {
+      toggleFormSubmitButtonState(true);
       $fdControl.find('.custom-validator').remove();
     }
   };
@@ -31,6 +33,15 @@
     var pattern = new RegExp("[" + specialCharacters.join("") + "]", "g");
 
     $input.val(textInput.replace(pattern, ""));
+  };
+  var toggleFormSubmitButtonState = function(isEnabled) {
+    var $btn = $('input[type=submit]');
+    if (isEnabled) {
+      $btn.removeAttr('disabled');
+    }
+    else {
+      $btn.prop('disabled', true);
+    }
   };
   var triggerKeyup = function(e) {
     setTimeout(function() {
