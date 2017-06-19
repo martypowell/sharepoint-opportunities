@@ -24,15 +24,27 @@
         $fdControl.append(validationTemplate(validationMessage));
     }
     else {
-      toggleFormSubmitButtonState(true);
-      $fdControl.find('.custom-validator').remove();
+      removeInValidIndicators($fdControl);
     }
+  };
+  var onKeyUp = function(e) {
+    var $this = $(e.currentTarget);
+    var $input = $this.find('input[type="text"]');
+    var isValid = isNameValid($input);
+    var $fdControl = $input.closest('.fd_control');
+
+    if (isValid)
+      removeInValidIndicators($fdControl);
   };
   var removeSpecialCharacters = function($input) {
     var textInput = $input.val();
     var pattern = new RegExp("[" + specialCharacters.join("") + "]", "g");
 
     $input.val(textInput.replace(pattern, ""));
+  };
+  var removeInValidIndicators = function($fdControl) {
+      toggleFormSubmitButtonState(true);
+      $fdControl.find('.custom-validator').remove();
   };
   var toggleFormSubmitButtonState = function(isEnabled) {
     var $btn = $('input[type=submit]');
@@ -57,5 +69,7 @@
     ].join("");
   };
 
-  $(document).on('blur', '[fd_name="FileLeafRef"]', onBlur);
+  $(document)
+    .on('blur', '[fd_name="FileLeafRef"]', onBlur)
+    .on('keyup', '[fd_name="FileLeafRef"]', onKeyUp);
 })(jQuery);
